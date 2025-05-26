@@ -4,6 +4,7 @@ import { mapService } from './services/map.service.js'
 
 window.onload = onInit
 
+var gLocIdToRemove
 // To make things easier in this project structure 
 // functions that are called from DOM are defined on a global app object
 window.app = {
@@ -16,6 +17,8 @@ window.app = {
     onShareLoc,
     onSetSortBy,
     onSetFilterBy,
+    onYesRemoveLoc,
+    onCloseRemoveLocModal
 }
 
 function onInit() {
@@ -69,8 +72,13 @@ function renderLocs(locs) {
 }
 
 function onRemoveLoc(locId) {
-    console.log('deleting...')
-    locService.remove(locId)
+    const elModal = document.querySelector('.remove-loc-modal')
+    gLocIdToRemove = locId
+    elModal.showModal()
+}
+
+function onYesRemoveLoc() {
+    locService.remove(gLocIdToRemove)
         .then(() => {
             flashMsg('Location removed')
             unDisplayLoc()
@@ -80,6 +88,10 @@ function onRemoveLoc(locId) {
             console.error('OOPs:', err)
             flashMsg('Cannot remove location')
         })
+}
+
+function onCloseRemoveLocModal() {
+    document.querySelector('.remove-loc-modal').close()
 }
 
 function onSearchAddress(ev) {
@@ -224,7 +236,7 @@ function getFilterByFromQueryParams() {
     const queryParams = new URLSearchParams(window.location.search)
     const txt = queryParams.get('txt') || ''
     const minRate = queryParams.get('minRate') || 0
-    locService.setFilterBy({txt, minRate})
+    locService.setFilterBy({ txt, minRate })
 
     document.querySelector('input[name="filter-by-txt"]').value = txt
     document.querySelector('input[name="filter-by-rate"]').value = minRate
