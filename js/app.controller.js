@@ -69,6 +69,7 @@ function renderLocs(locs) {
 }
 
 function onRemoveLoc(locId) {
+    console.log('deleting...')
     locService.remove(locId)
         .then(() => {
             flashMsg('Location removed')
