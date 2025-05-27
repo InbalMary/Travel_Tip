@@ -5,6 +5,7 @@ import { mapService } from './services/map.service.js'
 window.onload = onInit
 
 var gLocIdToRemove
+var gUserPos = undefined
 // To make things easier in this project structure 
 // functions that are called from DOM are defined on a global app object
 window.app = {
@@ -40,6 +41,9 @@ function renderLocs(locs) {
 
     var strHTML = locs.map(loc => {
         const className = (loc.id === selectedLocId) ? 'active' : ''
+        
+        let distanceText = _formatDistTxt(loc)
+
         return `
         <li class="loc ${className}" data-id="${loc.id}">
             <h4>  
@@ -52,6 +56,7 @@ function renderLocs(locs) {
                 ` | Updated: ${utilService.elapsedTime(loc.updatedAt)}`
                 : ''}
             </p>
+            <p class="dist">${distanceText}</p>
             <div class="loc-btns">     
                <button title="Delete" onclick="app.onRemoveLoc('${loc.id}')">🗑️</button>
                <button title="Edit" onclick="app.onUpdateLoc('${loc.id}')">✏️</button>
@@ -140,6 +145,9 @@ function loadAndRenderLocs() {
 function onPanToUserPos() {
     mapService.getUserPosition()
         .then(latLng => {
+            console.log('latLng', latLng)
+            gUserPos = latLng
+
             mapService.panTo({ ...latLng, zoom: 15 })
             unDisplayLoc()
             loadAndRenderLocs()
@@ -190,6 +198,7 @@ function displayLoc(loc) {
     const el = document.querySelector('.selected-loc')
     el.querySelector('.loc-name').innerText = loc.name
     el.querySelector('.loc-address').innerText = loc.geo.address
+    el.querySelector('.dist').innerText = _formatDistTxt(loc)
     el.querySelector('.loc-rate').innerHTML = '★'.repeat(loc.rate)
     el.querySelector('[name=loc-copier]').value = window.location
     el.classList.add('show')
@@ -326,4 +335,12 @@ function cleanStats(stats) {
         return acc
     }, [])
     return cleanedStats
+}
+
+function _formatDistTxt(loc) {
+    if (!gUserPos) return ''
+    else {
+        const distance = utilService.getDistance(gUserPos, { lat: loc.geo.lat, lng: loc.geo.lng }, 'KM')
+        return `Distance: ${distance} KM`
+    }
 }
