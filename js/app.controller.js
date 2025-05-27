@@ -6,6 +6,8 @@ window.onload = onInit
 
 var gLocIdToRemove
 var gUserPos = undefined
+var gLocToEdit = null
+var gAddGeo = null
 // To make things easier in this project structure 
 // functions that are called from DOM are defined on a global app object
 window.app = {
@@ -19,7 +21,9 @@ window.app = {
     onSetSortBy,
     onSetFilterBy,
     onYesRemoveLoc,
-    onCloseRemoveLocModal
+    onCloseRemoveLocModal,
+    onSaveLoc,
+    onCloseLocEditModal
 }
 
 function onInit() {
@@ -113,24 +117,30 @@ function onSearchAddress(ev) {
 }
 
 function onAddLoc(geo) {
-    const locName = prompt('Loc name', geo.address || 'Just a place')
-    if (!locName) return
+    // const locName = prompt('Loc name', geo.address || 'Just a place')
+    // if (!locName) return
+    console.log('geo in onAdd', geo)
+    gAddGeo = geo
 
-    const loc = {
-        name: locName,
-        rate: +prompt(`Rate (1-5)`, '3'),
-        geo
-    }
-    locService.save(loc)
-        .then((savedLoc) => {
-            flashMsg(`Added Location (id: ${savedLoc.id})`)
-            utilService.updateQueryParams({ locId: savedLoc.id })
-            loadAndRenderLocs()
-        })
-        .catch(err => {
-            console.error('OOPs:', err)
-            flashMsg('Cannot add location')
-        })
+    const elModal = document.querySelector('.loc-edit-modal')
+    elModal.querySelector('h2').innerText = 'Add location'
+    
+    elModal.showModal()
+    // const loc = {
+    //     name: locName,
+    //     rate: +prompt(`Rate (1-5)`, '3'),
+    //     geo
+    // }
+    // locService.save(loc)
+    //     .then((savedLoc) => {
+    //         flashMsg(`Added Location (id: ${savedLoc.id})`)
+    //         utilService.updateQueryParams({ locId: savedLoc.id })
+    //         loadAndRenderLocs()
+    //     })
+    //     .catch(err => {
+    //         console.error('OOPs:', err)
+    //         flashMsg('Cannot add location')
+    //     })
 }
 
 function loadAndRenderLocs() {
@@ -162,20 +172,26 @@ function onPanToUserPos() {
 function onUpdateLoc(locId) {
     locService.getById(locId)
         .then(loc => {
-            const rate = prompt('New rate?', loc.rate)
-            if (rate && rate !== loc.rate) {
-                loc.rate = rate
-                locService.save(loc)
-                    .then(savedLoc => {
-                        flashMsg(`Rate was set to: ${savedLoc.rate}`)
-                        loadAndRenderLocs()
-                    })
-                    .catch(err => {
-                        console.error('OOPs:', err)
-                        flashMsg('Cannot update location')
-                    })
+            gLocToEdit = loc
+            const elModal = document.querySelector('.loc-edit-modal')
+            elModal.querySelector('.loc-name').value = loc.name
+            elModal.querySelector('.loc-rate').value = loc.rate
+            elModal.querySelector('h2').innerText = 'Update location'
+            elModal.showModal()
+            // const rate = prompt('New rate?', loc.rate)
+            // if (rate && rate !== loc.rate) {
+            //     loc.rate = rate
+            //     locService.save(loc)
+            //         .then(savedLoc => {
+            //             flashMsg(`Rate was set to: ${savedLoc.rate}`)
+            //             loadAndRenderLocs()
+            //         })
+            //         .catch(err => {
+            //             console.error('OOPs:', err)
+            //             flashMsg('Cannot update location')
+            //         })
 
-            }
+            // }
         })
 }
 
@@ -343,4 +359,62 @@ function _formatDistTxt(loc) {
         const distance = utilService.getDistance(gUserPos, { lat: loc.geo.lat, lng: loc.geo.lng }, 'KM')
         return `Distance: ${distance} KM`
     }
+}
+
+
+
+function onSaveLoc() {
+    const elForm = document.querySelector('.loc-edit-modal form')
+
+    const elName = elForm.querySelector('.loc-name')
+    const elRate = elForm.querySelector('.loc-rate')
+
+    const name = elName.value
+    const rate = elRate.value
+
+    if (gLocToEdit) {
+        if (rate && rate !== gLocToEdit.rate) {
+            gLocToEdit.rate = +rate
+            locService.save(gLocToEdit)
+                .then(savedLoc => {
+                    flashMsg(`Rate was set to: ${savedLoc.rate}`)
+                    loadAndRenderLocs()
+                })
+                .catch(err => {
+                    console.error('OOPs:', err)
+                    flashMsg('Cannot update location')
+                })
+        }
+    } else {
+        const loc = {
+            name: name,
+            rate: +rate,
+            geo: gAddGeo
+        }
+        
+        locService.save(loc)
+            .then((savedLoc) => {
+                flashMsg(`Added Location (id: ${savedLoc.id})`)
+                utilService.updateQueryParams({ locId: savedLoc.id })
+                loadAndRenderLocs()
+            })
+            .catch(err => {
+                console.error('OOPs:', err)
+                flashMsg('Cannot add location')
+            })
+    }
+
+    gLocToEdit = null
+    _resetLocEditModal()
+}
+
+function _resetLocEditModal() {
+    const elModal = document.querySelector('.loc-edit-modal')
+
+    elModal.querySelector('.loc-name').value = ''
+    elModal.querySelector('.loc-rate').value = ''
+}
+
+function onCloseLocEditModal() {
+    document.querySelector('.loc-edit-modal').close()
 }
