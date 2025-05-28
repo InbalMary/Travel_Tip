@@ -11,7 +11,7 @@
 
 .loc-list li {
     padding-bottom: .2em;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid var(--gray1);
 }
 .loc-list li h4 {
     display: flex;
@@ -41,14 +41,14 @@
 }
 
 .btn-user-pos {
-    background-color: var(--bg2);
+    background-color: var(--color2);
     background-image: url(../../img/user-loc.png);
     background-size: cover;
     width: 2em;
     height: 2em;
 }
 .btn-user-pos:hover {
-    background-color: whitesmoke;
+    background-color: var(--color3);
 }
 
 .loc-filter {
@@ -57,7 +57,7 @@
 }
 
 .loc-filter input[type=text] {
-    width: 98%;
+    width: 89.5%;
     margin-bottom: .5em;
 }
 
@@ -81,4 +81,25 @@
     width: 1em;
     height: 1em;
     margin-inline-end: 0.3em;
+}
+
+.loc-list .loc {
+    padding: 0.3em;
+    transition: 400ms;
+}
+.loc-list .loc:hover {
+    background-color: var(--color2);
+}
+
+input {
+  border: none;
+  border-radius: 2em;
+  font-size: 1rem;
+  padding-inline: 1em;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+input:focus {
+  box-shadow: 0 0 0 2px var(--color4);
 }

@@ -19,5 +19,6 @@
 }
 
 .loc-rate {
-    color: var(--color4);
+    color: var(--color2);
+    min-width: 200px;
 }
