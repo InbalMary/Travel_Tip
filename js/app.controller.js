@@ -45,7 +45,7 @@ function renderLocs(locs) {
 
     var strHTML = locs.map(loc => {
         const className = (loc.id === selectedLocId) ? 'active' : ''
-        
+
         let distanceText = _formatDistTxt(loc)
 
         return `
@@ -125,7 +125,7 @@ function onAddLoc(geo) {
     const elModal = document.querySelector('.loc-edit-modal')
     elModal.querySelector('h2').innerText = 'Add location'
     elModal.querySelector('.loc-name').value = geo.address
-    
+
     elModal.showModal()
     // const loc = {
     //     name: locName,
@@ -302,6 +302,10 @@ function renderLocStats() {
     locService.getLocCountByRateMap().then(stats => {
         handleStats(stats, 'loc-stats-rate')
     })
+
+    locService.getLocCountByUpdateMap().then(stats => {
+        handleStats(stats, 'loc-stats-update')
+    })
 }
 
 function handleStats(stats, selector) {
@@ -392,7 +396,7 @@ function onSaveLoc() {
             rate: +rate,
             geo: gAddGeo
         }
-        
+
         locService.save(loc)
             .then((savedLoc) => {
                 flashMsg(`Added Location (id: ${savedLoc.id})`)

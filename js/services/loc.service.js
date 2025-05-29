@@ -30,7 +30,8 @@ export const locService = {
     save,
     setFilterBy,
     setSortBy,
-    getLocCountByRateMap
+    getLocCountByRateMap,
+    getLocCountByUpdateMap
 }
 
 function query() {
@@ -54,7 +55,7 @@ function query() {
                 locs.sort((p1, p2) => (p1.rate - p2.rate) * gSortBy.rate)
             } else if (gSortBy.name !== undefined) {
                 locs.sort((p1, p2) => p1.name.localeCompare(p2.name) * gSortBy.name)
-            } else if( gSortBy.time !== undefined) {
+            } else if (gSortBy.time !== undefined) {
                 locs.sort((p1, p2) => (p2.createdAt - p1.createdAt) * gSortBy.time)
             }
 
@@ -97,6 +98,24 @@ function getLocCountByRateMap() {
             }, { high: 0, medium: 0, low: 0 })
             locCountByRateMap.total = locs.length
             return locCountByRateMap
+        })
+}
+
+function getLocCountByUpdateMap() {
+    return storageService.query(DB_KEY)
+        .then(locs => {
+            const locByUpdateMap = locs.reduce((map, loc) => {
+            const updated = utilService.elapsedTime(loc.updatedAt)
+
+                if (updated === 'just now'
+                    || updated === 'last hour'
+                    || updated === 'today') map.today++
+                else if (updated === 'days ago') map.past++
+                else map.never++
+                return map
+            }, { today: 0, past: 0, never: 0 })
+            locByUpdateMap.total = locs.length
+            return locByUpdateMap
         })
 }
 
@@ -152,7 +171,7 @@ function _createDemoLocs() {
 
 function _createLoc(loc) {
     loc.id = utilService.makeId()
-    loc.createdAt = loc.updatedAt = utilService.randomPastTime()
+    loc.createdAt = updated = utilService.randomPastTime()
     return loc
 }
 
