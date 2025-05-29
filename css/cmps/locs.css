@@ -13,6 +13,11 @@
     padding-bottom: .2em;
     border-bottom: 1px solid var(--gray1);
 }
+
+.locs-container>* {
+    padding-inline: 1em;
+}
+
 .loc-list li h4 {
     display: flex;
     justify-content: space-between;
@@ -22,7 +27,7 @@
     color: var(--color3);
 }
 
-.loc-list li.active .muted{
+.loc-list li.active .muted {
     color: var(--color4);
 }
 
@@ -38,6 +43,8 @@
 .form-search {
     display: block;
     text-align: end;
+    margin-block-start: .5em;
+    margin-block-end: .3em;
 }
 
 .btn-user-pos {
@@ -47,6 +54,7 @@
     width: 2em;
     height: 2em;
 }
+
 .btn-user-pos:hover {
     background-color: var(--color3);
 }
@@ -56,9 +64,13 @@
     padding: 0.3em;
 }
 
+.loc-filter {
+    padding-inline: 1.1em;
+}
+
 .loc-filter input[type=text] {
-    width: 89.5%;
-    margin-bottom: .5em;
+    width: 91%;
+    margin-block: .5em;
 }
 
 .pie {
@@ -87,19 +99,20 @@
     padding: 0.3em;
     transition: 400ms;
 }
+
 .loc-list .loc:hover {
     background-color: var(--color2);
 }
 
 input {
-  border: none;
-  border-radius: 2em;
-  font-size: 1rem;
-  padding-inline: 1em;
-  outline: none;
-  transition: box-shadow 0.2s ease;
+    border: none;
+    border-radius: 2em;
+    font-size: 1rem;
+    padding-inline: 1em;
+    outline: none;
+    transition: box-shadow 0.2s ease;
 }
 
 input:focus {
-  box-shadow: 0 0 0 2px var(--color4);
+    box-shadow: 0 0 0 2px var(--color4);
 }

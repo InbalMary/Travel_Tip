@@ -12,6 +12,8 @@
     height: auto;
     max-height: 15em;
     padding: 0.5em;
+    padding-inline-start: 2em;
+
 }
 
 .selected-loc input[name=loc-copier] {
