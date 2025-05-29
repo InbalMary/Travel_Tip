@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <h1>TravelTip</h1>
+        <h1 class="logo">TravelTip</h1>
         <section class="selected-loc">
             <h2>Location: <span class="loc-name"></span> <span class="loc-rate"></span></h2>
             <h4 class="loc-address"></h4>
@@ -74,7 +74,7 @@
 
             <div class="actions">
                 <button type="button" onclick="app.onCloseRemoveLocModal()">Cancel</button>
-                <button>Delete location</button>
+                <button class="delete">Delete location</button>
             </div>
         </form>
     </dialog>
@@ -84,7 +84,7 @@
             <h2>Add Location</h2>
             <input class="loc-name" type="text" placeholder="Enter location name..">
 
-            <input class="loc-rate" type="number" placeholder="Enter location rate..">
+            <input class="loc-rate" type="number" min="0" max="5" placeholder="Enter location rate..">
             <div class="actions">
                 <button type="button" onclick="app.onCloseLocEditModal()">Cancel</button>
                 <button>Save</button>

@@ -10,6 +10,17 @@
 }
 
 /* Another theme */
+:root {
+    --bg1: #0B0F1A;
+  --bg2: #121826;
+  --bg3: #1E2638;
+  --color1: #E5F0FF;
+  --color2: #023382;
+  --color3: #7dc5d0;
+  --color4: #7DD3FC;  
+  --gray1: #A0B5D1;
+}
+
 /* :root {
     --bg1: rgb(37, 13, 195);
     --bg2: rgb(26, 110, 146);

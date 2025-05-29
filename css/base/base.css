@@ -2,6 +2,7 @@ body {
     background-color: var(--bg1);
     color: #eee;
     overflow-x: hidden;
+    font-family: 'comforta-reg', sans-serif;
 }
 
 header {
@@ -21,10 +22,11 @@ input[type=text],input[type=number] {
 }
 
 button {
+    font-family: 'comforta-reg', sans-serif;
     color: whitesmoke;
     border: 0;
     border-radius: .2em;
-    background-color: #222;
+    background-color: var(--bg1);
     padding: 6px 10px;
     margin: 2px;
     cursor: pointer;
@@ -33,7 +35,7 @@ button {
 
 button:hover {
     color: var(--color2);
-    background-color: #111;
+    background-color: var(--color3);
 }
 
 .muted {
@@ -45,3 +47,6 @@ button:hover {
     font-size: .8em;
 }
 
+input {
+    font-family: 'comforta-reg', sans-serif;
+}
