@@ -8,3 +8,8 @@
 .remove-loc-modal {
 	background-color: var(--color1);
 }
+
+.delete:hover {
+	background-color: #EF4444;
+	color: var(--color1);
+}
