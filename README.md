@@ -19,7 +19,7 @@ TravelTip is an app that keeps a list of favorite locations
 
 ## Selected Location
 - Displayed in the header
-- Location is active in the list (gold color)
+- Location is active in the list (blue color)
 - Marker on the map
 - Reflected in query params 
 - Copy url to clipboard
