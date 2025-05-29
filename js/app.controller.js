@@ -124,6 +124,7 @@ function onAddLoc(geo) {
 
     const elModal = document.querySelector('.loc-edit-modal')
     elModal.querySelector('h2').innerText = 'Add location'
+    elModal.querySelector('.loc-name').value = geo.address
     
     elModal.showModal()
     // const loc = {
