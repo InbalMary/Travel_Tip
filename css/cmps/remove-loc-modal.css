@@ -1,0 +1,10 @@
+.actions {
+	display: flex;
+	justify-content: space-between;
+	margin: 2em;
+}
+
+.loc-edit-modal,
+.remove-loc-modal {
+	background-color: var(--color1);
+}

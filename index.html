@@ -16,6 +16,7 @@
             <h4 class="loc-address"></h4>
             <button onclick="app.onCopyLoc()">Copy location</button>
             <button onclick="app.onShareLoc()">Share location</button>
+            <p class="dist"></p>
             <input name="loc-copier" />
         </section>
         <form class="form-search" onsubmit="app.onSearchAddress(event)">
@@ -67,6 +68,30 @@
             </section>
         </div>
     </main>
+    <dialog class="remove-loc-modal">
+        <form onsubmit="app.onYesRemoveLoc(event)" method="dialog">
+            <h2>Are you sure you want to delete this location?</h2>
+
+            <div class="actions">
+                <button type="button" onclick="app.onCloseRemoveLocModal()">Cancel</button>
+                <button>Delete location</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="loc-edit-modal">
+        <form onsubmit="app.onSaveLoc()" method="dialog">
+            <h2>Add Location</h2>
+            <input class="loc-name" type="text" placeholder="Enter location name..">
+
+            <input class="loc-rate" type="number" placeholder="Enter location rate..">
+            <div class="actions">
+                <button type="button" onclick="app.onCloseLocEditModal()">Cancel</button>
+                <button>Save</button>
+            </div>
+        </form>
+    </dialog>
+    
     <pre class="debug" hidden></pre>
     <div class="user-msg"></div>
     <script type="module" src="js/app.controller.js"></script>
